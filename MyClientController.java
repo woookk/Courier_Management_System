@@ -93,12 +93,11 @@ public class MyClientController {
 			socket.shutdownOutput();
 
 			// TODO : Response 내용을 받아오는 코드를 작성하시오
-
 			
 			
 			// TODO : 올바른 Response 일 때 상품 조회 이벤트를 처리하시오
 			// 참고 : ResponseBody 받아오는 방법 -> Response에서 "\r\n\r\n"를 구분자로 split하여 받아옴
-			
+
 
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -251,12 +250,21 @@ public class MyClientController {
 				} else if (obj == v.updateButton) {
 					// 상품 업데이트
 					updateProduct();
+
 					//TODO : STEP1 이벤트 추가하기
+					v.txt1.setText("");
+					v.txt2.setText("");
+					v.txt3.setText("");
+					v.txt4.setText("");
 				} else if (obj == v.deleteButton) {
 					// 상품 삭제
 					deleteProduct();
 					
 					//TODO : STEP1 이벤트 추가하기
+					v.txt1.setText("");
+					v.txt2.setText("");
+					v.txt3.setText("");
+					v.txt4.setText("");
 				}
 			}
 		});
