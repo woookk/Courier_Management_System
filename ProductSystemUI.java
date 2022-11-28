@@ -69,7 +69,10 @@ public class ProductSystemUI extends JFrame {
 				String created_at = data.getValueAt(row, 3).toString();
 
 				//TODO : 테이블 한 로우 선택 시 하단 패널의 텍스트 박스를 선택한 로우의 내용으로 채우는 코드를 작성하시오
-				
+				txt1.setText(id);
+				txt2.setText(name);
+				txt3.setText(status);
+				txt4.setText(created_at);
 			}
 
 			@Override
@@ -199,7 +202,7 @@ public class ProductSystemUI extends JFrame {
 
 				if (obj == v.loginButton) {
 					// TODO : 로그인 버튼 클릭 시 화면전환을 구현하시오
-
+					v.cardLayout.show(v.tab, "main");
 					//테스트를 위한 임시 로우 추가
 					v.model.addRow(new Object[] { "123", "temp", "temp", "temp" });
 				} else if (obj == v.exitButton) {
@@ -208,10 +211,16 @@ public class ProductSystemUI extends JFrame {
 					v.nameInput.setText("");
 				} else if (obj == v.updateButton) {
 					// TODO : 수정 버튼 클릭 시 하단 패널의 텍스트 박스 비우기를 구현하시오
-		
+					v.txt1.setText("");
+					v.txt2.setText("");
+					v.txt3.setText("");
+					v.txt4.setText("");
 				} else if (obj == v.deleteButton) {
 					// TODO : 삭제 버튼 클릭 시 하단 패널의 텍스트 박스 비우기를 구현하시오
-					
+					v.txt1.setText("");
+					v.txt2.setText("");
+					v.txt3.setText("");
+					v.txt4.setText("");
 				}
 			}
 		});
