@@ -189,7 +189,7 @@ public class ProductSystemUI extends JFrame {
 		exitButton.addActionListener(listener);
 	}
 
-	/// * this main() method is here only for testing UI, and should be deleted or
+	/* this main() method is here only for testing UI, and should be deleted or
 	/// commented out later
 	public static void main(String[] args) {
 
@@ -224,6 +224,7 @@ public class ProductSystemUI extends JFrame {
 				}
 			}
 		});
-	} // delete or comment out this method when working with MyClientController*/
+	} // delete or comment out this method when working with MyClientController
+	 */
 
 }
