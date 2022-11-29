@@ -23,7 +23,7 @@ public class HTTPRequestController {
 	 */
 	
 	// POST /login API
-	public void setLoginRequest(PrintWriter pw, String requestBody){
+	public void setLoginRequest(PrintWriter pw, String requestBody) {
 		pw.println("POST /login HTTP/1.1");
 		pw.println("Host: " + host);
 		pw.println("Content-Type : application/json; charset=utf-8");
@@ -33,7 +33,7 @@ public class HTTPRequestController {
 		pw.flush();
 	}
 	
-	public void setGetRequest(PrintWriter pw, String requestParam){
+	public void setGetRequest(PrintWriter pw, String requestParam) {
 		//TODO : 상품 조회를 요청하는 GET /{학번} API Request를  필수헤더를 포함하여 구성하시오
 		pw.println("GET /" +  requestParam + " HTTP/1.1");
 		pw.println("Host: " + host);
@@ -42,7 +42,7 @@ public class HTTPRequestController {
 	}
 	
 	
-	public void setPostRequest(PrintWriter pw, String requestBody){
+	public void setPostRequest(PrintWriter pw, String requestBody) {
 		//TODO : 상품 추가를 요청하는 POST / API Request를 필수헤더를 포함하여 구성하시오
 		pw.println("POST / HTTP/1.1");
 		pw.println("Host: " + host);
@@ -54,7 +54,7 @@ public class HTTPRequestController {
 	}
 	
 	
-	public void setPutRequest(PrintWriter pw, String requestBody){
+	public void setPutRequest(PrintWriter pw, String requestBody) {
 		// TODO : 상품 수정을 요청하는 PUT / API Request를 필수헤더를 포함하여 구성하시오
 		pw.println("PUT / HTTP/1.1");
 		pw.println("Host: " + host);
@@ -65,7 +65,7 @@ public class HTTPRequestController {
 		pw.flush();
 	}
 	
-	public void setPatchRequest(PrintWriter pw, String requestBody){
+	public void setPatchRequest(PrintWriter pw, String requestBody) {
 		// TODO : 상품 수정을 요청하는  PATCH / API Request를 필수헤더를 포함하여 구성하시오
 		pw.println("PATCH / HTTP/1.1");
 		pw.println("Host: " + host);
@@ -77,9 +77,9 @@ public class HTTPRequestController {
 	}
 	
 	
-	public void setDeleteRequest(PrintWriter pw,String requestParam){
+	public void setDeleteRequest(PrintWriter pw, String requestParam) {
 		//TODO : 상품 삭제를 요청하는 DELETE /{상품id} API Request를 필수헤더를 포함하여 구성하시오
-		pw.println("DELETE / + " +  requestParam + " HTTP/1.1");
+		pw.println("DELETE /" +  requestParam + " HTTP/1.1");
 		pw.println("Host: " + host);
 		pw.println();
 		pw.flush();
