@@ -149,11 +149,22 @@ public class MyClientController {
 			rc.setPostRequest(pw, gson.toJson(new Product(v.idInput.getText(), v.nameInput.getText())));
 			socket.shutdownOutput();
 
-			
 			// TODO : Response 내용을 받아오는 코드를 작성하시오
+			String line = null;
+			StringBuilder s = new StringBuilder();
 
+			while ((line = br.readLine()) != null) {
+				s.append(line + "\r\n");
+			}
+
+			String response = s.toString();
 			
 			// TODO : 올바른 Response일 때 상품을 새로고침 하시오
+			if (response.indexOf("HTTP/") != -1) {
+				if (response.indexOf("201 Created") != -1) {
+					getProducts();
+				}
+			}
 
 		} catch (IOException e1) {
 			e1.printStackTrace();
