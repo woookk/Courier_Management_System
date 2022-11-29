@@ -18,9 +18,9 @@ public class MyClientController {
 	private PrintWriter pw;
 	private HTTPRequestController rc;
 
-	private String serverURL="203.252.148.148";
+//	private String serverURL="203.252.148.148";
+	private String serverURL = "localhost";
 	private int port = 80;
-	//private String serverURL = "localhost";
 
 	public MyClientController(ProductSystemUI v) {
 		this.v = v;
@@ -37,7 +37,6 @@ public class MyClientController {
 
 			// request header 세팅
 			rc.setLoginRequest(pw, gson.toJson(new User(v.idInput.getText())));
-
 			socket.shutdownOutput();
 
 			v.model.setRowCount(0);
@@ -93,10 +92,30 @@ public class MyClientController {
 			socket.shutdownOutput();
 
 			// TODO : Response 내용을 받아오는 코드를 작성하시오
-			
+			String line = null;
+			StringBuilder s = new StringBuilder();
+
+			while ((line = br.readLine()) != null) {
+				s.append(line + "\r\n");
+			}
+
+			String response = s.toString();
 			
 			// TODO : 올바른 Response 일 때 상품 조회 이벤트를 처리하시오
 			// 참고 : ResponseBody 받아오는 방법 -> Response에서 "\r\n\r\n"를 구분자로 split하여 받아옴
+			if (response.indexOf("HTTP/") != -1) {
+				if (response.indexOf("200 OK") != -1) {
+
+					String responseBody = response.split("\r\n\r\n")[1];
+					v.model.setRowCount(0);
+					String[] json = responseBody.split("\n");
+
+					for (int i = 0; i < json.length; i++) {
+						Product data = new Gson().fromJson(json[i], Product.class);
+						v.model.addRow(new Object[] {data.getOrderId(), data.getName(), data.getStatus(), data.getCreatedAt()});
+					}
+				}
+			}
 
 
 		} catch (IOException e1) {
@@ -132,11 +151,9 @@ public class MyClientController {
 
 			
 			// TODO : Response 내용을 받아오는 코드를 작성하시오
-	
 
 			
 			// TODO : 올바른 Response일 때 상품을 새로고침 하시오
-	
 
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -166,18 +183,13 @@ public class MyClientController {
 			pw = new PrintWriter(socket.getOutputStream());
 
 			//request header 설정 (PUT이 안될 경우 PATCH 사용)
-			rc.setPatchRequest(pw, gson.toJson(
-					new Product(Long.parseLong(v.txt1.getText().toString()), v.txt2.getText(), v.txt3.getText())));
-			// rc.setPutRequest(pw, gson.toJson(
-			// new Product(Long.parseLong(v.txt1.getText().toString()), v.txt2.getText(),v.txt3.getText())));
-			
-			socket.shutdownOutput();
+			 rc.setPatchRequest(pw, gson.toJson(
+			 new Product(Long.parseLong(v.txt1.getText().toString()), v.txt2.getText(),v.txt3.getText())));
+			 socket.shutdownOutput();
 
-			// TODO : Response 내용을 받아오는 코드를 작성하시오
+		 	// TODO : Response 내용을 받아오는 코드를 작성하시오
 
-			
-			// TODO : 올바른 Response일 때 상품을 새로고침 하는 코드를 작성하시오 
-	
+			// TODO : 올바른 Response일 때 상품을 새로고침 하는 코드를 작성하시오
 
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -211,7 +223,8 @@ public class MyClientController {
 			socket.shutdownOutput();
 
 			// TODO : Response 내용을 받아오는 코드를 작성하시오
-	
+
+
 			// TODO : 올바른 Response일 때 상품을 새로고침 하는 코드를 작성하시오
 
 		} catch (IOException e1) {
