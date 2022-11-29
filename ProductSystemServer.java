@@ -39,9 +39,10 @@ public class ProductSystemServer {
 			while (true) {
 				try {
 					//TODO : 요청이 올때마다 Thread 생성하고 Handling 하시오
-					
-//				} catch (IOException ex) {
-//					logger.log(Level.WARNING, "Exception accepting connection", ex);
+					Socket connection = server.accept();
+					pool.submit(new HTTPHandler(connection));
+				} catch (IOException ex) {
+					logger.log(Level.WARNING, "Exception accepting connection", ex);
 				} catch (RuntimeException ex) {
 					logger.log(Level.SEVERE, "Unexpected error", ex);
 				}
@@ -63,9 +64,11 @@ public class ProductSystemServer {
 		public Void call() throws IOException {
 			try {
 				
-				//TODO: PrintWrite 객체 this.out, BufferedReader 객체 this.in을 생성하는 코드를 작성하시오. BufferedReader의 인코딩은 UTF-8으로 설정
-				
-				StringBuilder s=new StringBuilder();
+				//TODO: PrintWriter 객체 this.out, BufferedReader 객체 this.in을 생성하는 코드를 작성하시오. BufferedReader의 인코딩은 UTF-8으로 설정
+				this.out = new PrintWriter(connection.getOutputStream());
+				this.in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
+
+				StringBuilder s = new StringBuilder();
 				String tmp;
 				String request;
 				
@@ -77,15 +80,25 @@ public class ProductSystemServer {
 				
 				//HTTP 메서드에 따라 분기처리를 하는 파트
 				if (request.indexOf("HTTP/") != -1) {
-					if(request.indexOf("POST /login")!=-1) {
+					if (request.indexOf("POST /login") != -1) {
 						String requestBody = request.split("\r\n\r\n")[1];
-						service.login(out,requestBody);
-					}else if (request.indexOf("GET /") != -1) {
+						service.login(out, requestBody);
+					} else if (request.indexOf("GET /") != -1) {
 						String requestParam = request.toString().split(" ")[1].replace("/", "");
-						service.getProducts(out,requestParam);
+						service.getProducts(out, requestParam);
 					}
 					//TODO : POST, PATCH(또는 PUT), DELETE API에 대한 분기처리를 작성하시오
-					else {
+					  else if (request.indexOf("POST /") != -1) {
+						  String requestBody = request.split("\r\n\r\n")[1];
+						  service.addProduct(out, requestBody);
+
+					} else if (request.indexOf("PATCH /") != -1) {
+						String requestBody = request.split("\r\n\r\n")[1];
+						service.updateProduct(out, requestBody);
+					} else if (request.indexOf("DELETE /") != -1) {
+						String requestParam = request.toString().split(" ")[1].replace("/", "");
+						service.deleteProduct(out, requestParam);
+					} else {
 						service.setDefaultResponse(out);
 					}
 				}
