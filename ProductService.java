@@ -14,13 +14,13 @@ import com.google.gson.Gson;
 
 public class ProductService {
 	//TODO : DB 정보 본인 DB 정보로 바꿔서 사용
-	private String dbURL = "DB_URL";//ex) "jdbc:mysql://localhost:3306/Schema?serverTimezone=Asia/Seoul";
-	private String dbUser = "DB_ID";
-	private String dbPasswd = "DB_PW";
+	private String dbURL = "jdbc:mysql://localhost:3306/NetworkProgramming?serverTimezone=Asia/Seoul";
+	private String dbUser = "root";
+	private String dbPasswd = "dnrdl4630";
 	private Connection conn;
 
 	//TODO : 비밀번호 정보 본인 학번 넣기
-	private final String [] pw={"123456789"};
+	private final String [] pw={"201811553"};
 	
 	private Gson gson = new Gson();
 	private HTTPResponseController hc;
@@ -68,7 +68,8 @@ public class ProductService {
 			}
 			
 			//TODO : 상품 조회 Response를 보내는 코드를 작성하시오
-	
+			hc.setSuccessGetResponse(out, content);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			hc.setFailedResponse(out);
@@ -93,6 +94,7 @@ public class ProductService {
 			ps.executeUpdate();
 			
 			//TODO : 상품 추가 성공 Response를 보내는 코드를 작성하시오
+			hc.setSuccessPostResponse(out);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -107,7 +109,7 @@ public class ProductService {
 
 	}
 
-	public void updateProduct(PrintWriter out,String requestBody){
+	public void updateProduct(PrintWriter out, String requestBody){
 		PreparedStatement ps;
 		connectDB();
 		try {
@@ -119,6 +121,7 @@ public class ProductService {
 			ps.executeUpdate();
 			
 			//TODO : 상품 update 성공 Response를 보내는 코드를 작성하시오(PUT 또는 PATCH)
+			hc.setSuccessPatchResponse(out);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -132,7 +135,7 @@ public class ProductService {
 		}
 	}
 
-	public void deleteProduct(PrintWriter out,String requestParam) {
+	public void deleteProduct(PrintWriter out, String requestParam) {
 		PreparedStatement ps;
 		connectDB();
 		try {
@@ -140,7 +143,8 @@ public class ProductService {
 			ps.setString(1, requestParam);
 			ps.executeUpdate();
 			
-			//TODO : 상품 삭제 성공 Response를 보내는 코드를 작성하시오 
+			//TODO : 상품 삭제 성공 Response를 보내는 코드를 작성하시오
+			hc.setSuccessDeleteResponse(out);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -156,7 +160,7 @@ public class ProductService {
 
 	public void setDefaultResponse(PrintWriter out) {
 		//TODO : 실패  Response를 보내는 코드를 작성하시오
-
+		hc.setFailedResponse(out);
 	}
 
 }
